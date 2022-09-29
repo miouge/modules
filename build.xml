@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE xml>
+<project name="Create module.jar" default="create_jar" basedir="." >
+
+	<!-- set global properties for this build -->
+    <property name="dir.buildfile" value="."/>
+	<property name="dir.workspace" value="${dir.buildfile}/.."/>
+	<property name="dir.out" location="${dir.buildfile}/out"/>
+	<property name="dir.src" location="${dir.buildfile}/src"/>
+	<property name="dir.bin" location="${dir.buildfile}/bin"/>
+	
+	<path id="classpath">
+		<!-- where to find the jre and additionnal jar -->
+		<fileset dir="C:/Java/jre8/lib"/>		
+	</path>
+     
+	<target name="init">
+		<!-- Create the time stamp -->
+		<tstamp/>
+		<!-- Create the bin and out directory structure used by compile -->
+		<mkdir dir="${dir.bin}"/>
+		<mkdir dir="${dir.out}"/>
+	</target>
+	
+    <target name="compile" depends="init" >
+		<!-- Compile the Java code from ${dir.src} to ${dir.bin} -->
+		<javac srcdir="${dir.src}" destdir="${dir.bin}" includeantruntime="false" encoding="UTF-8">
+			<classpath refid="classpath"/>
+		</javac>
+	</target>
+	
+	<target name="create_jar" depends="compile" >
+        <jar destfile="${dir.out}/module.jar">
+            <fileset dir="${dir.buildfile}/bin"/>
+        </jar>
+    </target>
+	
+	<target name="clean" >
+		<!-- Delete the ${dir.bin} and ${dir.out} directory trees -->
+		<delete dir="${dir.bin}"/>
+		<delete dir="${dir.out}"/>
+	</target>
+	
+</project>
